@@ -6,13 +6,20 @@ import newdb
 app = Flask(__name__)
 app.secret_key = "Y76RGT67-èEF676GEeg56"
 
-@app.route("/items")
+
+
+
+
+@app.route("/")
 def index():
     return "Message d'accueil"
 
 def read_db_table():
     table = (newdb.read_table())
     print(table)
+
+
+
 
 
 if __name__ == "__main__":
