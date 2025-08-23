@@ -29,6 +29,18 @@ def create_table():
         print("Error when creating table: ", e)
 
 
+def read_table():
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Inventory")
+            result = cursor.fetchall()
+            return result
+    
+    except sqlite3.OperationalError as e:
+        print("Error when reading the table: ", e)
+
+
 def insert_item(name, batch_number, initial_quantity, expiration_date, form, dosage, prescription_required):
     try:
         with get_connection() as conn:
