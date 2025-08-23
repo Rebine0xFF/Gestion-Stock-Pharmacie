@@ -58,6 +58,17 @@ def substract_item(batch_number):
             conn.commit()
 
     except sqlite3.OperationalError as e:
+        print("Error when substracting item : ", e)
+
+
+def remove_item(batch_number):
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Inventory WHERE batch_number = ?", (batch_number,))
+            conn.commit()
+    
+    except sqlite3.OperationalError as e:
         print("Error when removing item : ", e)
 
 
@@ -65,6 +76,7 @@ def substract_item(batch_number):
 # TESTS
 if __name__ == "__main__":
     create_table()
+
     insert_item(
         name='Doliprane',
         batch_number='B12345',
@@ -87,3 +99,15 @@ if __name__ == "__main__":
 
     for i in range(5):
         substract_item(batch_number='B12345')
+
+    insert_item(
+        name='Bajhfue',
+        batch_number='F332',
+        base_quantity=99,
+        expiration_date='2007-09-10',
+        form='blahblah',
+        dosage='30kg',
+        prescription_required=False,
+    )
+
+    remove_item(batch_number='F332')
