@@ -14,7 +14,8 @@ def create_table():
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     batch_number TEXT NOT NULL,
-                    quantity INTEGER NOT NULL,
+                    base_quantity INTEGER NOT NULL,
+                    quantity_left INTEGER,
                     expiration_date TEXT,
                     price REAL,
                     location TEXT,
@@ -28,18 +29,18 @@ def create_table():
         print("Error when creating table: ", e)
 
 
-def insert_item(name, batch_number, quantity, expiration_date, form, dosage, prescription_required):
+def insert_item(name, batch_number, base_quantity, expiration_date, form, dosage, prescription_required):
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
             # Checks if item with same batch_number already exists
-            cursor.execute("SELECT * FROM Inventory WHERE batch_number = ?", (batch_number,))
+            cursor.execute("SELECT batch_number FROM Inventory WHERE batch_number = ?", (batch_number,))
             result = cursor.fetchone()
             if result is None:
                 cursor.execute("""
-                    INSERT INTO Inventory (name, batch_number, quantity, expiration_date, form, dosage, prescription_required )
-                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                    (name, batch_number, quantity, expiration_date, form, dosage, prescription_required)
+                    INSERT INTO Inventory (name, batch_number, base_quantity, quantity_left, expiration_date, form, dosage, prescription_required )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (name, batch_number, base_quantity, base_quantity, expiration_date, form, dosage, prescription_required)
                 )
                 conn.commit()
             else:
@@ -49,6 +50,17 @@ def insert_item(name, batch_number, quantity, expiration_date, form, dosage, pre
         print("Error when inserting item :", e)
 
 
+def substract_item(batch_number):
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE Inventory SET quantity_left = quantity_left - 1 WHERE batch_number = ?", (batch_number,))
+            conn.commit()
+
+    except sqlite3.OperationalError as e:
+        print("Error when removing item : ", e)
+
+
 
 # TESTS
 if __name__ == "__main__":
@@ -56,7 +68,7 @@ if __name__ == "__main__":
     insert_item(
         name='Doliprane',
         batch_number='B12345',
-        quantity=20,
+        base_quantity=20,
         expiration_date='2025-09-10',
         form='Comprimé',
         dosage='500mg',
@@ -66,9 +78,12 @@ if __name__ == "__main__":
     insert_item(
         name='Doliprane',
         batch_number='B12345',
-        quantity=20,
+        base_quantity=20,
         expiration_date='2025-09-10',
         form='Comprimé',
         dosage='500mg',
         prescription_required=True,
     )
+
+    for i in range(5):
+        substract_item(batch_number='B12345')
