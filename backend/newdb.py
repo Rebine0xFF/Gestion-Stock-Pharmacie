@@ -124,3 +124,23 @@ if __name__ == "__main__":
     )
 
     remove_item(batch_number='F332')
+
+    insert_item(
+        name='Amoxicilline',
+        batch_number='A98765',
+        initial_quantity=50,
+        expiration_date='2026-01-15',
+        form='Gélule',
+        dosage='1g',
+        prescription_required=True,
+    )
+
+    insert_item(
+        name='Ibuprofène',
+        batch_number='I54321',
+        initial_quantity=30,
+        expiration_date='2025-12-05',
+        form='Comprimé',
+        dosage='400mg',
+        prescription_required=False,
+    )
