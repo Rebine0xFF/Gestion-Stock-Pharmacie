@@ -55,8 +55,10 @@ def insert_item(name, batch_number, initial_quantity, expiration_date, form, dos
                     (name, batch_number, initial_quantity, initial_quantity, expiration_date, form, dosage, prescription_required)
                 )
                 conn.commit()
+                return True
             else:
                 print("Item with same batch_number already exists!")
+                return False
 
     except sqlite3.OperationalError as e:
         print("Error when inserting item :", e)

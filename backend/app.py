@@ -22,16 +22,35 @@ def read_db_table():
 def insert_db_item():
     data = request.get_json()
 
-    name = data["name"]
-    batch_number = data["batch_number"]
-    initial_quantity = data["initial_quantity"]
-    expiration_date = data["expiration_date"]
-    form = data["form"]
-    dosage = data["dosage"]
-    prescription_required = data["prescription_required"]
+    success = newdb.insert_item(
+        data["name"],
+        data["batch_number"],
+        data["initial_quantity"],
+        data["expiration_date"],
+        data["form"],
+        data["dosage"],
+        data["prescription_required"]
+    )
+    if success:
+        return jsonify({"message": "Item inserted successfully"}), 201
+    else:
+        return jsonify({"error": "Batch number already exists"}), 400
 
-    newdb.insert_item(name, batch_number, initial_quantity, expiration_date, form, dosage, prescription_required)
-    return jsonify({"message": "Item inserted successfully"})
+
+@app.route("/subtract_db_item", methods=["POST"])
+def subtract_db_item ():
+    data = request.get_json()
+    batch_number = data["batch_number"]
+    newdb.subtract_item(batch_number)
+    return jsonify({"message": "Item subtracted successfully"})
+
+
+@app.route("/remove_db_item", methods=["POST"])
+def remove_db_items():
+    data = request.get_json()
+    batch_number = data["batch_number"]
+    newdb.remove_item(batch_number)
+    return jsonify({"message": "Item removed successfully"})
 
 
 
