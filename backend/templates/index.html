@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+
+
+<body>
+    <h1>Inventaire:</h1>
+    <table id="inventoryTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Batch</th>
+                <th>Quantité initiale</th>
+                <th>Quantité restante</th>
+                <th>Date d’expiration</th>
+                <th>Forme</th>
+                <th>Dosage</th>
+                <th>Prescription</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Inventory items will be inserted here -->
+        </tbody>
+
+    <script>
+    async function loadInventory() {
+        const response = await fetch("/read_db_table");
+        const data = await response.json();
+
+        const tbody = document.querySelector("#inventoryTable tbody");
+        tbody.innerHTML = "";
+
+        data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item[0]}</td>
+            <td>${item[1]}</td>
+            <td>${item[2]}</td>
+            <td>${item[3]}</td>
+            <td>${item[4]}</td>
+            <td>${item[5]}</td>
+            <td>${item[8]}</td>
+            <td>${item[9]}</td>
+            <td>${item[10] ? "Oui" : "Non"}</td>
+        `;
+        tbody.appendChild(row);
+        });
+    }
+
+    loadInventory();
+    </script>
+</body>

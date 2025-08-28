@@ -9,7 +9,7 @@ app.secret_key = "Y76RGT67-èEF676GEeg56"
 
 @app.route("/")
 def index():
-    return "Message d'accueil"
+    return render_template("index.html")
 
 
 @app.route("/read_db_table", methods=["GET"])
