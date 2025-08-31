@@ -7,9 +7,22 @@ app.secret_key = "Y76RGT67-èEF676GEeg56"
 
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route("/inventory")
+def inventory():
+    return render_template("inventory.html")
+
+@app.route("/add-product")
+def add_product():
+    return render_template("add_product.html")
+
+@app.route("/statistics")
+def statistics():
+    return render_template("statistics.html")
+
+@app.route("/settings")
+def settings():
+    return render_template("settings.html")
+
 
 
 @app.route("/read_db_table", methods=["GET"])
