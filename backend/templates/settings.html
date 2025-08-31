@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends "base.html" %}
 
+{% block title %}Inventaire{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Paramètres</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-
-
-<body>
-    <ul class="sidenav">
-        <li><a href="inventory">Inventaire</a></li>
-        <li><a href="add-product">Ajouter produit</a></li>
-        <li><a href="statistics">Statistiques</a></li>
-        <li><a href="settings">Paramètres</a></li>
-    </ul>
-</body>
+{% block content %}
+    <p>Modifier les paramètres de l'application.</p>
+{% endblock %}

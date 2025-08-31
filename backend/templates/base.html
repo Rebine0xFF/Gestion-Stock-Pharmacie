@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <ul class="sidenav">
+        <li><a href="{{ url_for('inventory') }}">Inventaire</a></li>
+        <li><a href="{{ url_for('add_product') }}">Ajouter produit</a></li>
+        <li><a href="{{ url_for('statistics') }}">Statistiques</a></li>
+        <li><a href="{{ url_for('settings') }}">Paramètres</a></li>
+    </ul>
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
