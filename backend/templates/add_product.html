@@ -3,5 +3,62 @@
 {% block title %}Inventaire{% endblock %}
 
 {% block content %}
-    <p>Ajouter un nouveau produit à l'inventaire.</p>
+    <div class="title_with_back_button">
+        <button class="back_arrow">Back arrow</button>
+        <div>
+            <h1 class="title">Ajout manuel de stock</h1>
+            <p class="subtitle">Entrez les détails du produit</p>
+        </div>
+    </div>
+
+    <div class="add_product_form">
+        <form>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="product_name">Nom du produit *</label>
+                    <input type="text" id="product_name" name="product_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="batch_number">Numéro de lot *</label>
+                    <input type="text" id="batch_number" name="batch_number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product_quantity">Quantité initiale *</label>
+                    <input type="number" id="product_quantity" name="product_quantity" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="expiration_date">Date d’expiration *</label>
+                    <input type="date" id="expiration_date" name="expiration_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="medication_form">Forme pharmaceutique *</label>
+                    <select id="medication_form" name="medication_form" required>
+                        <option value="">Sélectionner...</option>
+                        <option value="comprime">Comprimé</option>
+                        <option value="capsule">Capsule</option>
+                        <option value="sirop">Sirop</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dosage">Dosage *</label>
+                    <input type="text" id="dosage" name="dosage" placeholder="ex. 500mg" required>
+                </div>
+            </div>
+
+            <div class="form-group prescription-toggle">
+                <label for="prescription_required">Prescription requise</label>
+                <input type="checkbox" id="prescription_required" name="prescription_required">
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="cancel-btn">Annuler</button>
+                <button type="submit" class="submit-btn">Ajouter</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
