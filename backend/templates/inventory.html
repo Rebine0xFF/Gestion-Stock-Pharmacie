@@ -16,6 +16,7 @@
                     <th>Forme</th>
                     <th>Dosage</th>
                     <th>Prescription</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,11 +45,26 @@
             <td>${item[8]}</td>
             <td>${item[9]}</td>
             <td>${item[10] ? "Oui" : "Non"}</td>
+            <td><button onclick="removeItem('${item[2]}')">Supprimer</button></td>
         `;
         tbody.appendChild(row);
         });
     }
-
     loadInventory();
+
+
+    async function removeItem(batchNumber) {
+        if (!confirm(`Supprimer le lot ${batchNumber} ?`)) return;
+
+        const response = await fetch("/remove_db_item", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ batch_number: batchNumber })
+        });
+
+        const result = await response.json();
+        alert(result.message || result.error);
+        loadInventory();
+    }
     </script>
 {% endblock %}
