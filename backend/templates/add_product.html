@@ -12,7 +12,7 @@
     </div>
 
     <div class="add_product_form">
-        <form>
+        <form id="addForm">
             <div class="form-grid">
                 <div class="form-group">
                     <label for="product_name">Nom du produit *</label>
@@ -61,4 +61,33 @@
             </div>
         </form>
     </div>
+
+
+    <script>
+    document.getElementById("addForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const data = {
+            name: document.getElementById("product_name").value,
+            batch_number: document.getElementById("batch_number").value,
+            initial_quantity: parseInt(document.getElementById("product_quantity").value),
+            expiration_date: document.getElementById("expiration_date").value,
+            form: document.getElementById("medication_form").value,
+            dosage: document.getElementById("dosage").value,
+            prescription_required: document.getElementById("prescription_required").checked
+        };
+
+        const response = await fetch("/insert_db_item", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        alert(result.message || result.error);
+    });
+    </script>
+
+
+
 {% endblock %}
