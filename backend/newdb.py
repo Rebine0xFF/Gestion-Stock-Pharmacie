@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime, date
 
 
 def get_connection():
@@ -34,7 +35,21 @@ def read_table():
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM Inventory")
-            result = cursor.fetchall()
+            rows = cursor.fetchall()
+
+            today = date.today()
+            result = []
+
+            for row in rows:
+                expiration_str = row[5]
+                try:
+                    expiration_date = datetime.strptime(expiration_str, "%Y-%m-%d").date()
+                except ValueError:
+                    expiration_date = None
+
+                expired = expiration_date is not None and expiration_date < today
+                result.append(list(row) + [expired])
+
             return result
     
     except sqlite3.OperationalError as e:
